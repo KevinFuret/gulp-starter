@@ -14,13 +14,11 @@ You need [Node.js](https://nodejs.org/en/) to run npm tasks
 First, clone the repo on command line or [download it](x-github-client://openRepo/https://github.com/KevinFuret/gulp-starter)
 ```
 git clone https://github.com/KevinFuret/gulp-starter.git
-
 ```
 
 Then, move to the folder
 ```
 cd /gulp-starter
-
 ```
 
 Run the installation of the package by npm

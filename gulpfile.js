@@ -3,6 +3,7 @@ var browserify = require('browserify');
 var buffer = require('vinyl-buffer');
 var del = require('del');
 var gulp = require('gulp');
+var imagemin = require('gulp-imagemin');
 var gulpif = require('gulp-if');
 var minifyCSS = require('gulp-csso');
 var sass = require('gulp-sass');
@@ -12,6 +13,7 @@ var sync = require('browser-sync').create();
 var uglify = require('gulp-uglify');
 var pxtorem = require('gulp-pxtorem');
 var plumber = require('gulp-plumber');
+var srcset = require('gulp-srcset');
 
 /////////////
 var postcss = require('gulp-postcss');
@@ -97,6 +99,15 @@ function fonts() {
         .pipe(gulp.dest(dist + '/fonts'));
 }
 
+function generateImages() {
+    return gulp.src('src/images/**/*')
+        .pipe(srcset([{
+            width:  [1080, 720, 320],
+        }]))
+        .pipe(gulp.dest(dist + '/images'));
+}
+
+
 /**
  * GLOBAL
  */
@@ -108,7 +119,9 @@ function clean() {
 
 gulp.task('clean', clean);
 
-gulp.task('build', gulp.series(clean, gulp.parallel(html, scss, js, images, fonts)));
+gulp.task('generateImages', generateImages);
+
+gulp.task('build', gulp.series(clean, gulp.parallel(html, scss, js, images, generateImages, fonts)));
 
 gulp.task('default', gulp.parallel(html, scss, js, images, fonts, function(done) {
     sync.init({
